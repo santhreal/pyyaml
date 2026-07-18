@@ -17,7 +17,7 @@ def test_load_safeloader():
 
 def test_empty_int_float_scalar():
     for s in ('!!int', '!!int ""', '!!int +', 'a: !!int', '!!float', '!!float ""', 'a: !!float'):
-        with pytest.raises(yaml.ConstructorError):
+        with pytest.raises(yaml.constructor.ConstructorError):
             yaml.safe_load(s)
     assert yaml.safe_load('!!int 1') == 1
     assert yaml.safe_load('!!float 1.5') == 1.5
