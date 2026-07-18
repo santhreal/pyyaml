@@ -235,7 +235,12 @@ class SafeConstructor(BaseConstructor):
 
     def construct_yaml_bool(self, node):
         value = self.construct_scalar(node)
-        return self.bool_values[value.lower()]
+        try:
+            return self.bool_values[value.lower()]
+        except KeyError:
+            raise ConstructorError(None, None,
+                    "expected a boolean but found %r" % value,
+                    node.start_mark)
 
     def construct_yaml_int(self, node):
         value = self.construct_scalar(node)
