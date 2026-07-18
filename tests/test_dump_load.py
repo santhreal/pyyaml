@@ -13,3 +13,14 @@ def test_load_no_loader():
 
 def test_load_safeloader():
     assert yaml.load("- foo\n", Loader=yaml.SafeLoader)
+
+
+def test_empty_int_float_scalar():
+    for s in ('!!int', '!!int ""', '!!int +', 'a: !!int'):
+        with pytest.raises(yaml.constructor.ConstructorError, match='expected an integer but found empty scalar'):
+            yaml.safe_load(s)
+    for s in ('!!float', '!!float ""', 'a: !!float'):
+        with pytest.raises(yaml.constructor.ConstructorError, match='expected a float but found empty scalar'):
+            yaml.safe_load(s)
+    assert yaml.safe_load('!!int 1') == 1
+    assert yaml.safe_load('!!float 1.5') == 1.5
