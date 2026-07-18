@@ -241,13 +241,9 @@ class SafeConstructor(BaseConstructor):
         value = self.construct_scalar(node)
         value = value.replace('_', '')
         sign = +1
-        if not value:
-            raise ConstructorError(None, None,
-                    "expected an integer but found empty scalar",
-                    node.start_mark)
-        if value[0] == '-':
-            sign = -1
-        if value[0] in '+-':
+        if value and value[0] in '+-':
+            if value[0] == '-':
+                sign = -1
             value = value[1:]
         if not value:
             raise ConstructorError(None, None,
@@ -282,13 +278,9 @@ class SafeConstructor(BaseConstructor):
         value = self.construct_scalar(node)
         value = value.replace('_', '').lower()
         sign = +1
-        if not value:
-            raise ConstructorError(None, None,
-                    "expected a float but found empty scalar",
-                    node.start_mark)
-        if value[0] == '-':
-            sign = -1
-        if value[0] in '+-':
+        if value and value[0] in '+-':
+            if value[0] == '-':
+                sign = -1
             value = value[1:]
         if not value:
             raise ConstructorError(None, None,
